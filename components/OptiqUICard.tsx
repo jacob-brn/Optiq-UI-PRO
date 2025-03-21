@@ -74,7 +74,7 @@ const OptiqUICard = ({
               <span className="text-green-500">
                 ${((totalCost ?? 26000) - 39).toLocaleString()}
               </span>
-              . It's{" "}
+              . It&apos;s{" "}
               <span className="text-green-500">
                 {(
                   (((totalCost ?? 26000) - 39) / (totalCost ?? 26000)) *
@@ -92,7 +92,7 @@ const OptiqUICard = ({
               <span className="text-green-500">
                 {(totalWaitTime ?? 25) - 0.5}
               </span>{" "}
-              business days sooner on average. That's almost{" "}
+              business days sooner on average. That&apos;s almost{" "}
               <span className="text-green-500">
                 {(((totalWaitTime ?? 25) - 0.5) / 5).toFixed(1)}
               </span>{" "}

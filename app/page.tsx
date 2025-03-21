@@ -131,7 +131,7 @@ export default function Home() {
             <div
               className="w-full max-w-7xl mx-auto px-8 py-12 sm:py-20 mt-6 md:mt-12"
               id="saas"
-              key={`template-${template.id}`}
+              key={`template-${idx}`}
             >
               <div className="grid grid-cols-1 gap-x-16 gap-y-12 sm:gap-y-20 xl:grid-cols-5">
                 <div className="xl:col-span-2 flex flex-col justify-center">

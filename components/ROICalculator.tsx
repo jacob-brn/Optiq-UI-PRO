@@ -59,14 +59,14 @@ const ROICalculator = ({
     const minRate = 50,
       maxRate = 300;
 
-    let timeScore =
+    const timeScore =
       (designerTime + developerTime - 2 * minDays) /
       (2 * maxDays - 2 * minDays);
-    let rateScore =
+    const rateScore =
       (designerRate + developerRate - 2 * minRate) /
       (2 * maxRate - 2 * minRate);
 
-    let finalScore = timeScore * 0.8 + rateScore * 0.5;
+    const finalScore = timeScore * 0.8 + rateScore * 0.5;
 
     let emojiIndex = 0;
     if (finalScore < 0.2) emojiIndex = 0; // Neutral

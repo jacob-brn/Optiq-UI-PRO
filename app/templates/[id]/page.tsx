@@ -1,4 +1,4 @@
-import type { Metadata, ResolvingMetadata } from "next";
+import type { Metadata } from "next";
 import { templates } from "@/config/templates";
 import Header from "@/components/Header";
 import { FaReact } from "react-icons/fa6";
@@ -144,9 +144,9 @@ const TemplatePage = async ({
               <div className="h-min w-full flex flex-col justify-center py-8 px-8 border-b">
                 <h3 className="text-xl font-semibold">Who is this for?</h3>
                 <p className="text-sm text-muted-foreground mt-2">
-                  You are launching a new {template?.name} product but don't
-                  want to spend time on learning frontend or figuring out how to
-                  design.
+                  You are launching a new {template?.name} product but
+                  don&apos;t want to spend time on learning frontend or figuring
+                  out how to design.
                 </p>
               </div>
               <div className="h-min w-full flex flex-col justify-center py-8 px-8 border-b">

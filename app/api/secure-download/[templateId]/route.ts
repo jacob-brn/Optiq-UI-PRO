@@ -4,7 +4,7 @@ import { verifySecureDownload, fetchRepoArchive } from "@/lib/github-download";
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { templateId: string } }
+  { params }: { params: Promise<{ templateId: string }> }
 ) {
   try {
     const supabase = await createClient();

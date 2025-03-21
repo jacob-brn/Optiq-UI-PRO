@@ -90,7 +90,7 @@ const Rays = ({
       scaleY: 0,
       height: 0,
     },
-    visible: (index: number) => ({
+    visible: () => ({
       scaleY: 1,
       height: "200%",
       transition: {

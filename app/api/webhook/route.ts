@@ -38,7 +38,7 @@ export async function POST(request: NextRequest) {
         const product = lineItems.data[0].price?.product as Stripe.Product;
         const templateName = templateNamesMapping[product.name] || product.name;
 
-        let ownerId = session.metadata?.user_id;
+        const ownerId = session.metadata?.user_id;
         const email = session.metadata?.email;
 
         if (!ownerId && email) {

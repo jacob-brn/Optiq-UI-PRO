@@ -1,9 +1,8 @@
 import Link from "next/link";
 import { Button } from "./ui/button";
-import { AlignLeft, ChevronRight, Home, Info, Mail, Star } from "lucide-react";
+import { AlignLeft, ChevronRight, Home, Star } from "lucide-react";
 import {
   Sheet,
-  SheetClose,
   SheetContent,
   SheetHeader,
   SheetTitle,

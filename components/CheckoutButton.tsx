@@ -1,5 +1,5 @@
 "use client";
-import { ArrowRight, LoaderCircle, LoaderIcon } from "lucide-react";
+import { ArrowRight, LoaderCircle } from "lucide-react";
 import { Button } from "./ui/button";
 
 import { useEffect, useState } from "react";

@@ -1,8 +1,5 @@
 "use client";
-
-import { Frame, Info } from "lucide-react";
 import { Slider } from "@/components/ui/slider";
-import { useState } from "react";
 
 interface DaysSliderProps {
   min: number;
