@@ -42,7 +42,7 @@ ENV NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=${NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY}
 COPY --from=builder /app/.next /app/.next
 COPY --from=builder /app/node_modules /app/node_modules
 COPY --from=builder /app/package.json /app/package.json
-COPY --from=builder /app/public /app/public  # If you have a public folder
+COPY --from=builder /app/public /app/public 
 
 EXPOSE 3000
 CMD ["npm", "start"]
