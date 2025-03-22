@@ -18,6 +18,9 @@ RUN npm install
 COPY . .
 
 # Debug: print env vars to confirm they're set (remove in production)
+RUN echo "Building with NEXT_PUBLIC_SUPABASE_URL=${NEXT_PUBLIC_SUPABASE_URL}"
+RUN echo "Building with NEXT_PUBLIC_SUPABASE_ANON_KEY=${NEXT_PUBLIC_SUPABASE_ANON_KEY}"
+
 RUN npm run build
 
 FROM node:20-slim
