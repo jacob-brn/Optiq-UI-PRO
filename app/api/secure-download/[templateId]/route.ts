@@ -38,7 +38,7 @@ export async function GET(
 
     if (!valid || !templateDetails)
       return NextResponse.json(
-        { error: error || "Invalid download link" },
+        { error: error || "Invalid download link. Please try again" },
         { status: 403 }
       );
 
