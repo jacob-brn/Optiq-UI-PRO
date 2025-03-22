@@ -6,7 +6,7 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: "jacob-brn/Optiq-UI-PRO"
+  IMAGE_NAME: "jacob-brn/optiq-ui-pro"
 
 jobs:
   amd64:
