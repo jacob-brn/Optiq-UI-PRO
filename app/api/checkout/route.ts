@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { stripe } from "@/lib/stripe";
+import { getStripeClient } from "@/lib/stripe";
 import { createClient } from "@/utils/supabase/server";
 import { validateEmail } from "@/utils/email-validator";
 
@@ -25,6 +25,8 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Invalid price ID" }, { status: 400 });
 
   try {
+    const stripe = getStripeClient();
+
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
       line_items: [
