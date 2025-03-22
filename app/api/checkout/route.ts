@@ -35,8 +35,8 @@ export async function POST(request: NextRequest) {
       ],
       metadata: metadata,
       mode: "payment",
-      success_url: "http://localhost:3000/payment/success",
-      cancel_url: "http://localhost:3000/payment/cancel",
+      success_url: `${process.env.NEXT_PUBLIC_APP_URL}/payment/success`,
+      cancel_url: `${process.env.NEXT_PUBLIC_APP_URL}/payment/cancel`,
     });
 
     return NextResponse.json({ id: session.id });
