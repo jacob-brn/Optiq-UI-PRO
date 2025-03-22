@@ -7,7 +7,10 @@ on:
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: "jacob-brn/optiq-ui-pro"
-
+  NEXT_PUBLIC_APP_URL: ${NEXT_PUBLIC_APP_URL}
+  NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: ${NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY}
+  STRIPE_SECRET_KEY: ${STRIPE_SECRET_KEY}
+  
 jobs:
   amd64:
     runs-on: ubuntu-latest
