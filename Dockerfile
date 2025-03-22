@@ -1,7 +1,7 @@
 FROM node:20 AS builder
 WORKDIR /app
 
-# Set build-time public environment variables
+# Set build-time public environment variables (ARG)
 ARG NEXT_PUBLIC_APP_URL
 ARG NEXT_PUBLIC_SUPABASE_URL
 ARG NEXT_PUBLIC_SUPABASE_ANON_KEY
@@ -18,6 +18,7 @@ RUN npm install
 COPY . .
 
 # Debug: print env vars to confirm they're set (remove in production)
+RUN echo "Building with NEXT_PUBLIC_APP_URL=${NEXT_PUBLIC_APP_URL}"
 RUN echo "Building with NEXT_PUBLIC_SUPABASE_URL=${NEXT_PUBLIC_SUPABASE_URL}"
 RUN echo "Building with NEXT_PUBLIC_SUPABASE_ANON_KEY=${NEXT_PUBLIC_SUPABASE_ANON_KEY}"
 
@@ -26,7 +27,7 @@ RUN npm run build
 FROM node:20-slim
 WORKDIR /app
 
-# Use ARG to receive values in second stage
+# Use ARG to receive values in second stage (runtime)
 ARG NEXT_PUBLIC_APP_URL
 ARG NEXT_PUBLIC_SUPABASE_URL
 ARG NEXT_PUBLIC_SUPABASE_ANON_KEY
@@ -41,7 +42,7 @@ ENV NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=${NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY}
 COPY --from=builder /app/.next /app/.next
 COPY --from=builder /app/node_modules /app/node_modules
 COPY --from=builder /app/package.json /app/package.json
-COPY --from=builder /app/public /app/public  # If you have a public folder
+COPY --from=builder /app/public /app/public
 
 EXPOSE 3000
 CMD ["npm", "start"]
