@@ -1,5 +1,7 @@
 "use client";
-import { motion } from "framer-motion";
+
+import { useRef, useEffect, useState } from "react";
+import { motion, useInView } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 type Ray = {
@@ -15,11 +17,9 @@ interface RaysProps {
   rayColor?: string;
   rayWidth?: string;
   blurAmount?: string;
-  baseRotation?: number;
   castDirection?: CastDirectionType;
   animationDuration?: number;
   animationDelay?: number;
-  animationVariance?: number;
   staggerDelay?: number;
   rays?: Ray[];
 }
@@ -45,6 +45,17 @@ const RAY_POSITIONS: Record<CastDirectionType, string> = {
   "from-left": "top-0 right-0",
 };
 
+// Default rays configuration - moved outside component to prevent recreation
+const DEFAULT_RAYS = [
+  { rotate: 10, opacity: 50, translateY: 0 },
+  { rotate: 2, opacity: 41, translateY: 15 },
+  { rotate: -3, opacity: 40, translateY: 30 },
+  { rotate: -9, opacity: 20, translateY: 45 },
+  { rotate: -10, opacity: 46, translateY: 60 },
+  { rotate: 22, opacity: 45, translateY: 30 },
+  { rotate: 5, opacity: 45, translateY: 0 },
+];
+
 const Rays = ({
   className,
   rayColor = "white",
@@ -52,19 +63,31 @@ const Rays = ({
   blurAmount = "22px",
   castDirection = "from-left",
   animationDuration = 5,
-  animationDelay = 0.2,
-  animationVariance = 1,
   staggerDelay = 0.2,
-  rays = [
-    { rotate: 10, opacity: 60, translateY: 0 },
-    { rotate: 2, opacity: 51, translateY: 15 },
-    { rotate: -3, opacity: 60, translateY: 30 },
-    { rotate: -9, opacity: 30, translateY: 45 },
-    { rotate: -10, opacity: 56, translateY: 60 },
-    { rotate: 22, opacity: 55, translateY: 75 },
-    { rotate: 5, opacity: 55, translateY: 0 },
-  ],
+  rays = DEFAULT_RAYS,
 }: RaysProps) => {
+  // Use Framer Motion's useInView hook
+  const ref = useRef(null);
+  const inView = useInView(ref, {
+    once: false,
+    margin: "200px 0px",
+    amount: "some",
+  });
+
+  const [isMobile, setIsMobile] = useState(false);
+  const actualRays = isMobile ? rays.slice(0, 4) : rays;
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
   const positionClasses = POSITION_CLASSES[castDirection];
   const transformOrigin = TRANSFORM_ORIGINS[castDirection];
   const rayPosition = RAY_POSITIONS[castDirection];
@@ -76,94 +99,85 @@ const Rays = ({
       ? 0
       : 45;
 
+  // Modified container variants - start with opacity 1
   const containerVariants = {
-    hidden: {},
+    hidden: { opacity: 0 },
     visible: {
+      opacity: 1,
       transition: {
         staggerChildren: staggerDelay,
       },
     },
   };
 
+  // Simplified ray variants
   const rayVariants = {
     hidden: {
       scaleY: 0,
-      height: 0,
     },
-    visible: () => ({
+    visible: {
       scaleY: 1,
-      height: "200%",
       transition: {
-        scaleY: {
-          duration: 1,
-          ease: "easeOut",
-        },
-        height: {
-          duration: 0,
-        },
+        duration: 1,
+        ease: "easeOut",
       },
-    }),
+    },
   };
 
+  // Memoize blur amount as a number
+  const blurAmountNum = Number.parseInt(blurAmount);
+
+  // Don't return early - render a placeholder with the same ref
   return (
     <motion.div
+      ref={ref}
       className={cn(positionClasses, "pointer-events-none", className)}
       style={{
         filter: `blur(${blurAmount})`,
         transform: `rotate(${baseRotation}deg)`,
+        willChange: "transform", // Hardware acceleration hint
       }}
       variants={containerVariants}
       initial="hidden"
-      animate="visible"
+      animate={inView ? "visible" : "hidden"}
     >
-      {rays.map((ray, index) => {
+      {actualRays.map((ray, index) => {
         const opacityValue = ray.opacity / 100;
-        const individualDuration =
-          animationDuration + index * animationVariance;
 
         return (
           <motion.div
             key={index}
-            className={cn("absolute", rayPosition, rayWidth)}
+            className={cn(
+              "absolute w-[15px] sm:w-[20px] md:w-[30px]",
+              rayPosition,
+              rayWidth
+            )}
             style={{
-              background: `linear-gradient(to bottom, ${rayColor} 30%, transparent)`,
+              background: `linear-gradient(to bottom, ${rayColor} 70%, transparent)`,
               transformOrigin,
               opacity: opacityValue,
+              height: "200%",
+              willChange: "transform", // Hardware acceleration hint
+              filter: `blur(${blurAmountNum})`,
             }}
             variants={rayVariants}
-            custom={index}
-            animate={{
-              translateY: [
-                ray.translateY,
-                ray.translateY + ray.rotate,
-                ray.translateY,
-              ],
-              rotate: [
-                ray.rotate,
-                ray.rotate + (index % 2 === 0 ? 2 : -2),
-                ray.rotate,
-              ],
-              filter: [
-                `blur(${blurAmount})`,
-                `blur(${Number.parseInt(blurAmount) - 8}px)`,
-                `blur(${blurAmount})`,
-              ],
-            }}
+            animate={
+              inView
+                ? {
+                    translateY: [ray.translateY, ray.translateY + ray.rotate],
+                    rotate: [
+                      ray.rotate,
+                      ray.rotate + (index % 2 === 0 ? 2 : -2),
+                    ],
+                  }
+                : {}
+            }
             transition={{
-              translateY: {
-                delay: 1.5 + index * animationDelay,
-                duration: individualDuration,
-                repeat: Number.POSITIVE_INFINITY,
-                ease: "easeInOut",
-                repeatType: "reverse",
-              },
-              rotate: {
-                delay: 1.5 + index * animationDelay,
-                duration: individualDuration,
-                repeat: Number.POSITIVE_INFINITY,
-                ease: "easeInOut",
-                repeatType: "reverse",
-              },
+              repeat: Number.POSITIVE_INFINITY,
+              repeatType: "reverse",
+              duration: animationDuration,
+              ease: "easeInOut",
+              delay: index * 0.1, // Simplified delay calculation
             }}
           />
         );

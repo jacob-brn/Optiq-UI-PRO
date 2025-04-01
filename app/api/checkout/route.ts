@@ -2,10 +2,12 @@ import { NextRequest, NextResponse } from "next/server";
 import { getStripeClient } from "@/lib/stripe";
 import { createClient } from "@/utils/supabase/server";
 import { validateEmail } from "@/utils/email-validator";
+import checkIsProd from "@/lib/check-is-prod";
 
-const validPriceIds = [
-  "price_1R0ecRGbjt10Jx4Gkeo2PGyP", // SaaS Template
-];
+const validPriceIds = {
+  development: ["price_1R0ecRGbjt10Jx4Gkeo2PGyP"], // SaaS Template
+  production: ["price_1R56CwK9YrZBiErRjCUz10SS"],
+};
 
 export async function POST(request: NextRequest) {
   const { priceId, email } = await request.json();
@@ -21,7 +23,13 @@ export async function POST(request: NextRequest) {
 
   if (!error && session.user) metadata.user_id = session.user.id;
 
-  if (!validPriceIds.includes(priceId))
+  const isProduction = checkIsProd();
+
+  if (
+    !validPriceIds[isProduction ? "production" : "development"].includes(
+      priceId
+    )
+  )
     return NextResponse.json({ error: "Invalid price ID" }, { status: 400 });
 
   try {
@@ -43,6 +51,7 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({ id: session.id });
   } catch (error) {
+    console.log(error);
     return NextResponse.json(
       { error: "Error creating checkout session" },
       { status: 500 }

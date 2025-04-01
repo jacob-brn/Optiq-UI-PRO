@@ -1,4 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
+import useIsLoggedIn from "./useIsLoggedIn";
 
 const fetchTemplates = async () => {
   const res = await fetch("/api/boughtTemplates");
@@ -7,13 +8,12 @@ const fetchTemplates = async () => {
 };
 
 export function useGetBoughtTemplates() {
+  const isLoggedIn = useIsLoggedIn();
+
   return useQuery({
     queryKey: ["bought-templates"],
     queryFn: fetchTemplates,
-    staleTime: 1000 * 60 * 2,
-    retry: (failureCount, error) => {
-      if (error.message === "User not authenticated") return false;
-      return failureCount < 3;
-    },
+    staleTime: 1000 * 60 * 5,
+    enabled: isLoggedIn,
   });
 }

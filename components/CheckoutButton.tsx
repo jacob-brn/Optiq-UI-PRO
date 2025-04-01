@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { loadStripe } from "@stripe/stripe-js";
 import { toast } from "sonner";
 import { getCurrentFormattedDate } from "@/utils/formatDate";
+import { validateEmail } from "@/utils/email-validator";
 
 const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!
@@ -60,7 +61,6 @@ const CheckoutButton = ({
 
       const session = await res.json();
       const stripe = await stripePromise;
-
       stripe?.redirectToCheckout({ sessionId: session.id });
     } catch (error) {
       toast("Error creating checkout session. Please try again later.", {
@@ -73,7 +73,12 @@ const CheckoutButton = ({
     <Button
       size={"lg"}
       className="group gap-y-0"
-      disabled={isStripeLoading || isLoading || !priceId}
+      disabled={
+        isStripeLoading ||
+        isLoading ||
+        !priceId ||
+        !validateEmail(email).isValid
+      }
       onClick={handleCheckout}
     >
       {isLoading || isStripeLoading ? (

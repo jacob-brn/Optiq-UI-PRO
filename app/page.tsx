@@ -30,8 +30,8 @@ export default function Home() {
           </h2>
           <Rays
             castDirection="from-left"
-            rayWidth="w-[20px] md:w-[50px] lg:w-[75px]"
-            className="-top-2/3"
+            rayWidth="w-[20px] md:w-[50px] lg:w-[65px]"
+            className="-top-1/2 lg:-top-2/3"
           />
 
           <div className="flex flex-col md:flex-row gap-6 items-center justify-center mt-6">

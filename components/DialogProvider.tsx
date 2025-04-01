@@ -9,6 +9,7 @@ import { Input } from "./ui/input";
 import { useState } from "react";
 import CheckoutButton from "./CheckoutButton";
 import useIsLoggedIn from "@/hooks/useIsLoggedIn";
+import checkIsProd from "@/lib/check-is-prod";
 
 export function DialogProvider() {
   const { isOpen, setOpen, templateId } = useDialogStore();
@@ -20,7 +21,10 @@ export function DialogProvider() {
 
   return (
     <Dialog open={isOpen} onOpenChange={setOpen}>
-      <DialogContent className=" [&_.dialog-close]:hidden p-0 pb-6">
+      <DialogContent
+        className=" [&_.dialog-close]:hidden p-0 pb-6"
+        onOpenAutoFocus={(e) => e.preventDefault()}
+      >
         <DialogTitle>
           <div className="flex flex-col">
             {selectedTemplate?.thumbnailUrl && (
@@ -53,6 +57,7 @@ export function DialogProvider() {
                 placeholder="Enter your email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                autoFocus={false}
               />
               <p className="text-xs text-gray-500">
                 The email above will be used to create your account. You will be
@@ -61,7 +66,11 @@ export function DialogProvider() {
             </div>
           )}
           <CheckoutButton
-            priceId={selectedTemplate?.price_id as string}
+            priceId={
+              checkIsProd()
+                ? (selectedTemplate?.productionPriceId as string)
+                : (selectedTemplate?.developmentPriceId as string)
+            }
             email={email}
           />
         </div>

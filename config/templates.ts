@@ -11,7 +11,8 @@ interface TemplateProps {
   thumbnailUrl: string;
   videoUrl: string;
   price: number;
-  price_id: string;
+  productionPriceId: string;
+  developmentPriceId: string;
   previewUrl: string;
   usedTech: tech[];
   features: string[];
@@ -28,7 +29,8 @@ const templates: TemplateProps[] = [
     thumbnailUrl: "/saas-template-thumbnail.png",
     videoUrl: "/saas.mp4",
     price: 39,
-    price_id: "price_1R0ecRGbjt10Jx4Gkeo2PGyP",
+    productionPriceId: "price_1R56CwK9YrZBiErRjCUz10SS",
+    developmentPriceId: "price_1R0ecRGbjt10Jx4Gkeo2PGyP",
     previewUrl: "https://optiqui-saas-template.vercel.app/",
     usedTech: [
       {
