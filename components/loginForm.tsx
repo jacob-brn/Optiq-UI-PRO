@@ -1,5 +1,4 @@
 "use client";
-import SocialLoginButton from "@/components/SocialLoginButton";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { loginWithEmail } from "@/app/login/action";
