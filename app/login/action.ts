@@ -26,9 +26,15 @@ export async function loginWithEmail(formData: FormData) {
     },
   });
 
-  console.log(error);
+  console.log(error?.message);
 
   if (error) {
+    if (error.message === "Signups not allowed for otp") {
+      return {
+        success: false,
+        message: "You need to register first",
+      };
+    }
     redirect("/login");
   }
 

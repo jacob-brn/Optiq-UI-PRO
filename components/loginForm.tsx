@@ -6,20 +6,26 @@ import { loginWithEmail } from "@/app/login/action";
 import { validateEmail } from "@/utils/email-validator";
 import Link from "next/link";
 import { useState } from "react";
+import { Loader2 } from "lucide-react";
 
 const LoginForm = () => {
   const [email, setEmail] = useState<string>("");
   const [error, setError] = useState<string>("");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const validateAndSubmit = async (formData: FormData) => {
+    setIsLoading(true);
     const validation = validateEmail(email);
-
-    console.log(formData.get("email"));
     if (validation.isValid) {
       setError("");
-      await loginWithEmail(formData);
+      const result = await loginWithEmail(formData);
+      setIsLoading(false);
+      if (result && !result.success) {
+        setError(result.message);
+      }
     } else {
       setError(validation.message);
+      setIsLoading(false);
       return;
     }
   };
@@ -60,12 +66,16 @@ const LoginForm = () => {
               />
               {error && <p className="text-xs text-red-500 mt-1">{error}</p>}
             </div>
-            <Button variant={"default"} type="submit">
-              Sign in with Email
+            <Button variant={"default"} type="submit" disabled={isLoading}>
+              {isLoading ? (
+                <Loader2 className="ml-2 h-4 w-4 animate-spin" />
+              ) : (
+                "Sign in with Email"
+              )}
             </Button>
           </div>
         </form>
-        <div className="relative">
+        {/* <div className="relative">
           <div className="absolute inset-0 flex items-center">
             <span className="w-full border-t"></span>
           </div>
@@ -82,7 +92,7 @@ const LoginForm = () => {
             variant="default"
             className="border"
           />
-        </div>
+        </div> */}
         <Link
           href={"/signup"}
           className="underline underline-offset-2 text-muted-foreground/80 text-sm text-center"

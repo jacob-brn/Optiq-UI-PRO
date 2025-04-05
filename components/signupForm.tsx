@@ -1,5 +1,4 @@
 "use client";
-import SocialLoginButton from "@/components/SocialLoginButton";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { signUpWithEmail } from "@/app/signup/action";
@@ -65,7 +64,7 @@ const SignupForm = () => {
             </Button>
           </div>
         </form>
-        <div className="relative">
+        {/* <div className="relative">
           <div className="absolute inset-0 flex items-center">
             <span className="w-full border-t"></span>
           </div>
@@ -82,7 +81,7 @@ const SignupForm = () => {
             variant="default"
             className="border"
           />
-        </div>
+        </div> */}
         <Link
           href={"/login"}
           className="underline underline-offset-2 text-muted-foreground/80 text-sm text-center"

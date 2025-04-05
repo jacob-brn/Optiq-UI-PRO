@@ -43,6 +43,7 @@ export async function POST(request: NextRequest) {
           quantity: 1,
         },
       ],
+      customer_email: email,
       metadata: metadata,
       mode: "payment",
       success_url: `${process.env.NEXT_PUBLIC_APP_URL}/payment/success`,

@@ -20,12 +20,15 @@ const CheckoutSuccessPage = () => {
         </CardHeader>
         <CardContent className="grid gap-y-4">
           <p className="text-muted-foreground max-w-sm">
-            Your payment was successful. You can now login to your account and
-            download your template.
+            Your payment was successful. You have to sign up using the{" "}
+            <span className="font-semibold text-foreground">
+              same email address
+            </span>{" "}
+            you used at the beginning.
           </p>
-          <Link href="/login" className="w-full">
+          <Link href="/signup" className="w-full">
             <Button className="w-full group relative font-semibold">
-              Log in
+              Sign up
               <ChevronRight className="-ml-1 group-hover:translate-x-1 transition-transform duration-300" />
             </Button>
           </Link>
