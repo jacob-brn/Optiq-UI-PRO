@@ -6,7 +6,7 @@ import checkIsProd from "@/lib/check-is-prod";
 
 const validPriceIds = {
   development: ["price_1R0ecRGbjt10Jx4Gkeo2PGyP"], // SaaS Template
-  production: ["price_1R56CwK9YrZBiErRjCUz10SS"],
+  production: ["price_1RAsZGK9YrZBiErRAMRbSqq2"],
 };
 
 export async function POST(request: NextRequest) {

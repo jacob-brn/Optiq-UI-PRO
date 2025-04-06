@@ -28,8 +28,8 @@ const templates: TemplateProps[] = [
       "Build a beatiful landing page for your product or service. Includes 11 customizable sections, responsive design, dark and light theme, and much more.",
     thumbnailUrl: "/saas-template-thumbnail.png",
     videoUrl: "/saas.mp4",
-    price: 39,
-    productionPriceId: "price_1R56CwK9YrZBiErRjCUz10SS",
+    price: 29,
+    productionPriceId: "price_1RAsZGK9YrZBiErRAMRbSqq2",
     developmentPriceId: "price_1R0ecRGbjt10Jx4Gkeo2PGyP",
     previewUrl: "https://optiqui-saas-template.vercel.app/",
     usedTech: [
