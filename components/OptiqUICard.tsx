@@ -45,7 +45,7 @@ const OptiqUICard = ({
               <div>
                 <span className="text-muted-foreground text-sm">Payment</span>
                 <div className="text-2xl">
-                  <span className="text-green-500 font-semibold">$39</span>
+                  <span className="text-green-500 font-semibold">$29</span>
                 </div>
               </div>
             </div>
